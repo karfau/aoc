@@ -1,5 +1,5 @@
 import {flow} from 'lodash';
-import {lines, numbers, run} from './tools';
+import {splitLines, lineToNumbers, runWithStdIn} from './tools';
 
 export const sameOrZero = (first: number, second: number) => first === second ? first : 0;
 
@@ -8,18 +8,18 @@ export const collectPairs = <T>(list: T[], step = 1): Pair<T>[] =>
   list.map((v, i): Pair<T> => [v, list[(i+step) % list.length]]);
 
 export const main = (input: string) => {
-  const line = lines(input)[0];
+  const line = splitLines(input)[0];
   return [
     flow(
-      numbers,
+      lineToNumbers,
       collectPairs,
       (pairs: Pair<number>[]) => pairs.reduce((sum, [first, second]) => sum + sameOrZero(first, second), 0)
     )(line),
     flow(
-      numbers,
+      lineToNumbers,
       (nums) => collectPairs(nums, nums.length / 2),
       (pairs: Pair<number>[]) => pairs.reduce((sum, [first, second]) => sum + sameOrZero(first, second), 0)
     )(line)
   ];
 };
-if (require.main === module) run(main);
+if (require.main === module) runWithStdIn(main);
