@@ -1,9 +1,8 @@
 import {flow} from 'lodash';
-import {splitLines, lineToNumbers, runWithStdIn} from './tools';
+import {lineToNumbers, Pair, runWithStdIn, splitLines} from './tools';
 
 export const sameOrZero = (first: number, second: number) => first === second ? first : 0;
 
-type Pair<T> = [T, T]
 export const collectPairs = <T>(list: T[], step = 1): Pair<T>[] =>
   list.map((v, i): Pair<T> => [v, list[(i+step) % list.length]]);
 

@@ -5,3 +5,5 @@ export const lineToNumbers = (s: string, delim: string | RegExp = '') => s.split
 export const runWithStdIn = (fun: (input: string) => any) => {
   require('get-stdin')().then(fun).then(console.log);
 };
+
+export type Pair<T> = [T, T]
