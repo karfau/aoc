@@ -27,23 +27,21 @@ export const position = (num: number): Pair<number> => {
       }
       turn -= halfDim * 2
     }
+    i--;
     if(horizontal){
       x += step
     } else {
       y += step
     }
-    i--;
   }
   return [x, y];
 };
 
 export const main = (input: string) => {
-  return [
-    position(parseInt(input)).reduce(
+  return position(parseInt(input)).reduce(
       (sum, pos) => sum + Math.abs(pos),
       0
-    )
-  ];
+    );
 };
 
 if (require.main === module) runWithStdIn(main);

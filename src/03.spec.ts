@@ -1,4 +1,4 @@
-import {Pair} from 'src/tools';
+import {Pair} from './tools';
 import {dimension, position} from './03';
 
 describe.only('day 3', function () {
@@ -13,11 +13,10 @@ describe.only('day 3', function () {
       [49, 7],
       [81, 9],
       [1024, 33]
-
     ].forEach(([num, dim]) => {
-    it(`should return dimension ${dim} for number ${num}`, function () {
-      expect(dimension(num)).toBe(dim);
-    });
+      it(`should return dimension ${dim} for number ${num}`, function () {
+        expect(dimension(num)).toBe(dim);
+      });
     });
   });
 
