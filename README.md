@@ -1,3 +1,16 @@
+Steps to execute code for day nn:
+
+```
+npm i
+cat input/nn.txt npm run run -- src/nn.ts
+```
+
+to run the tests: `npm test`
+
+
+Originally cloned from https://github.com/Microsoft/TypeScript-React-Starter
+
+Untouched README below.
 # TypeScript React Starter
 
 This quick start guide will teach you how to wire up TypeScript with [React](http://facebook.github.io/react/).
