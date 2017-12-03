@@ -1,4 +1,4 @@
-import {difference} from './02';
+import {difference, divided} from './02';
 
 describe('day 2', function () {
   describe('difference()', function () {
@@ -13,6 +13,14 @@ describe('day 2', function () {
       expect(difference([5, 1, 9, 5])).toBe(8);
       expect(difference([7, 5, 3])).toBe(4);
       expect(difference([2, 4, 6, 8])).toBe(6);
+    });
+  });
+
+  describe('divided()', function () {
+    it('should return fulfill description', function () {
+      expect(divided([5, 9, 2, 8])).toBe(4);
+      expect(divided([9, 4, 7, 3])).toBe(3);
+      expect(divided([3, 8, 6, 5])).toBe(2);
     });
   });
 });
