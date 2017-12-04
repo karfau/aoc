@@ -1,7 +1,7 @@
 import {Pair} from './tools';
 import {dimension, position} from './03';
 
-describe.only('day 3', function () {
+describe('day 3', function () {
   describe('dimension()', function () {
     [
       [1, 1],
