@@ -1,4 +1,4 @@
-import {isValid, occurrences} from './04';
+import {hasAnagrams, isValid, occurrences} from './04';
 
 describe.only('day 4', function () {
   describe('isValid()', function () {
@@ -6,17 +6,36 @@ describe.only('day 4', function () {
       'aa bb cc dd ee',
       'aa bb cc dd aaa',
     ].forEach(passphrase => {
-      it(`${passphrase} should be valid`, function () {
+      it(`"${passphrase}" should be valid`, function () {
         expect(isValid(occurrences, passphrase)).toBe(true);
       });
     });
     [
       'aa bb cc dd aa',
     ].forEach(passphrase => {
-      it(`${passphrase} should not be valid`, function () {
+      it(`"${passphrase}" should not be valid`, function () {
         expect(isValid(occurrences, passphrase)).toBe(false);
       });
     });
   });
 
+  describe('isValid()', function () {
+    [
+      'abcde fghij',
+      'a ab abc abd abf abj',
+      'iiii oiii ooii oooi oooo',
+    ].forEach(passphrase => {
+      it(`"${passphrase}" should be valid`, function () {
+        expect(isValid(hasAnagrams, passphrase)).toBe(true);
+      });
+    });
+    [
+      'abcde xyz ecdab',
+      'oiii ioii iioi iiio',
+    ].forEach(passphrase => {
+      it(`"${passphrase}" should not be valid`, function () {
+        expect(isValid(hasAnagrams, passphrase)).toBe(false);
+      });
+    });
+  });
 });
