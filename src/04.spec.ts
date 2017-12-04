@@ -1,4 +1,4 @@
-import {isValid} from './04';
+import {isValid, occurrences} from './04';
 
 describe.only('day 4', function () {
   describe('isValid()', function () {
@@ -7,14 +7,14 @@ describe.only('day 4', function () {
       'aa bb cc dd aaa',
     ].forEach(passphrase => {
       it(`${passphrase} should be valid`, function () {
-        expect(isValid(passphrase)).toBe(true);
+        expect(isValid(occurrences, passphrase)).toBe(true);
       });
     });
     [
       'aa bb cc dd aa',
     ].forEach(passphrase => {
       it(`${passphrase} should not be valid`, function () {
-        expect(isValid(passphrase)).toBe(false);
+        expect(isValid(occurrences, passphrase)).toBe(false);
       });
     });
   });
