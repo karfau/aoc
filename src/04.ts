@@ -1,15 +1,14 @@
-import {Pair, runWithStdIn, splitLines} from './tools';
+import {uniq} from 'lodash';
+import {runWithStdIn, splitLines} from './tools';
 
-type Check = (list: string[], word: string) => boolean;
+type Check = (list: string[]) => boolean;
 
-export const occurrences: Check = (list, word) => list.filter(word_ => word_ === word).length > 1;
-export const hasAnagrams: Check = (list, word) => list.filter(
-  word_ => word_.split('').sort().join('') === word.split('').sort().join('')
-).length > 1;
+const sortStr = (s:string): string => s.split('').sort().join('');
+export const occurrences: Check = (list) => list.length === uniq(list).length;
+export const hasAnagrams: Check = (list) => occurrences(list.map(w => sortStr(w)));
 
 export const isValid = (check: Check, pass: string): boolean => {
-  let words = pass.split(/\s+/);
-  return words.find(word => check(words, word)) === undefined;
+  return check(pass.split(/\s+/));
 };
 
 export const main = (input: string) => {
