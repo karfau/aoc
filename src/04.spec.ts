@@ -1,7 +1,7 @@
 import {hasAnagrams, isValid, occurrences} from './04';
 
-describe.only('day 4', function () {
-  describe('isValid()', function () {
+describe('day 4', function () {
+  describe('isValid(occurences, ...)', function () {
     [
       'aa bb cc dd ee',
       'aa bb cc dd aaa',
@@ -19,7 +19,7 @@ describe.only('day 4', function () {
     });
   });
 
-  describe('isValid()', function () {
+  describe('isValid(hasAnagrams, ...)', function () {
     [
       'abcde fghij',
       'a ab abc abd abf abj',
