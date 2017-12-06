@@ -12,10 +12,13 @@ describe('day 6', function () {
       });
     });
     it(`"should need 1 steps for [0, 0]`, function () {
-      expect(loop([0, 0])).toBe(1);
+      expect(loop([0, 0])).toEqual([1, 1]);
     });
     it(`"should need 5 steps for star 1`, function () {
-      expect(loop([0, 2,  7,  0])).toBe(5);
+      expect(loop([0, 2,  7,  0])[0]).toBe(5);
+    });
+    it(`"should return loop size 4 steps for star 2`, function () {
+      expect(loop([0, 2,  7,  0])[1]).toBe(4);
     });
   });
 });

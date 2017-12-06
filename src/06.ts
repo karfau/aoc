@@ -13,20 +13,19 @@ export function distribute(input: ReadonlyArray<number>): ReadonlyArray<number> 
   return result;
 }
 
-export const loop = (input: ReadonlyArray<number>): number => {
-  const known: string[] = [];
+export const loop = (input: ReadonlyArray<number>): [number, number] => {
+  const known: string[] = [input.join()];
   let current = input;
   do {
-    known.push(current.join());
     current = distribute(current);
+    known.push(current.join());
   } while (uniq(known).length === known.length);
-  return known.length - 1;
+  return [known.length - 1, known.reverse().lastIndexOf(known[0])];
 };
 
 export const main = (input: string) => {
   const numbers = lineToNumbers(splitLines(input)[0], /\s+/);
-  // console.log(numbers);
-  return [loop(numbers)];
+  return loop(numbers);
 };
 
 if (require.main === module) runWithStdIn(main);
