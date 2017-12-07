@@ -1,0 +1,96 @@
+exports[`day 7 tasks() "should create tasks for est input 1`] = `
+Array [
+  Array [
+    "tknk",
+  ],
+  Array [
+    "ugml",
+    "padx",
+    "fwft",
+  ],
+  Array [
+    "gyxo",
+    "ebii",
+    "jptl",
+    "pbga",
+    "havc",
+    "qoyq",
+    "ktlj",
+    "cntj",
+    "xhth",
+  ],
+]
+`;
+
+exports[`day 7 tree() "should create tree for 1`] = `
+Object {
+  "cntj": Object {
+    "c": Array [],
+    "w": 57,
+  },
+  "ebii": Object {
+    "c": Array [],
+    "w": 61,
+  },
+  "fwft": Object {
+    "c": Array [
+      "ktlj",
+      "cntj",
+      "xhth",
+    ],
+    "w": 72,
+  },
+  "gyxo": Object {
+    "c": Array [],
+    "w": 61,
+  },
+  "havc": Object {
+    "c": Array [],
+    "w": 66,
+  },
+  "jptl": Object {
+    "c": Array [],
+    "w": 61,
+  },
+  "ktlj": Object {
+    "c": Array [],
+    "w": 57,
+  },
+  "padx": Object {
+    "c": Array [
+      "pbga",
+      "havc",
+      "qoyq",
+    ],
+    "w": 45,
+  },
+  "pbga": Object {
+    "c": Array [],
+    "w": 66,
+  },
+  "qoyq": Object {
+    "c": Array [],
+    "w": 66,
+  },
+  "tknk": Object {
+    "c": Array [
+      "ugml",
+      "padx",
+      "fwft",
+    ],
+    "w": 41,
+  },
+  "ugml": Object {
+    "c": Array [
+      "gyxo",
+      "ebii",
+      "jptl",
+    ],
+    "w": 68,
+  },
+  "xhth": Object {
+    "c": Array [],
+    "w": 57,
+  },
+}
+`;
