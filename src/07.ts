@@ -47,7 +47,7 @@ export const sums = (t:Tower, tasks: string[][]): Sums => {
       const cw = t[task].c.map(c => r[c][0]);
       r[task] = [sum(cw) + t[task].w, cw];
       if (uniq(cw).length>1){
-        console.log(tasks.length - lvl, cw, t[task].c.map(c => [c, t[c].w, ...r[c]]));
+        // console.log(tasks.length - lvl, cw, t[task].c.map(c => [c, t[c].w, ...r[c]]));
       }
       return r
     }, result);
