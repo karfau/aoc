@@ -27,10 +27,18 @@ export const iteration = (data: Data, line:string): Data => {
   return instruction(data, reg, dir as any, parseInt(val, 10));
 };
 
-export const findMax = (start: number, data: Data) => Math.max(0, ...values(data));
+export const findMax = (start: number, data: Data) => Math.max(start, ...values(data));
 
 export const main = (input: string) => {
-  return findMax(0, splitLines(input).reduce(iteration, {} as Data));
+  let allTimeMax = 0;
+  return [
+    findMax(0, splitLines(input).reduce((data, line) => {
+      const next = iteration(data, line);
+      allTimeMax = findMax(allTimeMax, data);
+      return next;
+    }, {} as Data)),
+    allTimeMax
+  ];
 };
 
 if (require.main === module) runWithStdIn(main);
