@@ -1,4 +1,4 @@
-import {asciiLength, INITIAL, LENGTH_SUFFIX, mergeReverse, pick, step} from './10';
+import {asciiLength, INITIAL, knotHash, LENGTH_SUFFIX, mergeReverse, pick, step, xorConvert} from './10';
 
 describe('day 10', function () {
   describe('pick()', function () {
@@ -42,4 +42,34 @@ describe('day 10', function () {
     });
   });
 
+  describe('knotHash()', function () {
+    [
+      ['', 'a2582a3a0e66e6e86e3812dcb672a272'],
+      ['AoC 2017', '33efeb34ea91902bb2f59c9920caa6cd'],
+      ['1,2,3', '3efbe78a8d82f29979031a4aa0b16a9d'],
+      ['1,2,4', '63960835bcdc130f0b66d7ff4f6a5a8e'],
+    ].forEach(([input, result]: [string, string]) => {
+      it(`"should emit "${result}" from "${input}"`, function () {
+        expect(knotHash(input)).toEqual(result);
+      });
+    });
+  });
+
+  describe('xorConvert()', function () {
+    [
+      [[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], '00'],
+      [[65, 27, 9, 1, 4, 3, 40, 50, 91, 7, 6, 0, 2, 5, 68, 22], '40'],
+      [[
+        65, 27, 9, 1, 4, 3, 40, 50, 91, 7, 6, 0, 2, 5, 68, 22,
+        65, 27, 9, 1, 4, 3, 40, 50, 91, 7, 6, 0, 2, 5, 68, 22
+      ], '4040'],
+    ].forEach(([input, result]: [number[], string]) => {
+      it(`"should produce hash "${result}" from [${input.join()}]`, function () {
+        expect(xorConvert(input)).toEqual(result);
+      });
+    });
+  });
 });
+
+
+

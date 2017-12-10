@@ -1,5 +1,4 @@
 import {range} from 'lodash';
-import {toASCII} from 'punycode';
 import {lineToNumbers, runWithStdIn, splitLines} from './tools';
 
 export const pick = <T>(list: ReadonlyArray<T>, pos: number, length: number): ReadonlyArray<T> => {
@@ -38,15 +37,32 @@ export const step = ({data, pos, skipSize}: KnotHashIter, length: number): KnotH
 };
 
 export const LENGTH_SUFFIX: ReadonlyArray<number> = [17, 31, 73, 47, 23];
-export const asciiLength = (input: string) => {
+
+export const asciiLength = (input: string): ReadonlyArray<number> => {
   return [...input.split('').map(c => c.charCodeAt(0)), ...LENGTH_SUFFIX];
+};
+
+export const xorConvert = (input: ReadonlyArray<number>): string => {
+  const [_0, _1, _2, _3, _4, _5, _6, _7, _8, _9, _10, _11, _12, _13, _14, _15, ...more] = input;
+  const hex = (_0 ^ _1 ^ _2 ^ _3 ^ _4 ^_5 ^_6 ^_7 ^_8 ^_9 ^_10 ^_11 ^_12 ^_13 ^_14 ^_15).toString(16);
+  return (hex.length === 1 ? `0${hex}` : hex) + (more.length > 0 ? xorConvert(more) : '');
+};
+
+export const knotHash = (input: string): string => {
+  const length = asciiLength(input);
+  const singleRound = (acc: KnotHashIter) => {
+    return length.reduce(step, acc);
+  };
+  return xorConvert(range(0, 64).reduce(singleRound, INITIAL).data);
 };
 
 export const main = (input: string) => {
   const line = splitLines(input)[0];
-  const {data: [first, second]} = lineToNumbers(line, ',')
-    .reduce(step, INITIAL);
-  return [first * second];
+  const {data: [first, second]} = lineToNumbers(line, ',').reduce(step, INITIAL);
+  return [
+    first * second,
+    knotHash(line)
+  ];
 };
 
 if (require.main === module) runWithStdIn(main);
