@@ -22,11 +22,6 @@ export function measureGarbage(input: string): number {
   return reduceAndMeasureGarbage(0, input.replace(CANCELED_CHARS, ''));
 }
 
-export function countChar(input: string, char = '{'): number {
-  const match = input.match(new RegExp(char, 'g'));
-  return match ? match.length : 0;
-}
-
 type GroupScore = {
   level: number;
   total: number;

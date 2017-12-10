@@ -1,4 +1,4 @@
-import {measureGarbage, countChar, removeGarbage, scoreGroups} from './09';
+import {measureGarbage, removeGarbage, scoreGroups} from './09';
 
 describe('day 9', function () {
   describe('removeGarbage()', function () {
@@ -17,7 +17,7 @@ describe('day 9', function () {
     });
   });
 
-  describe('countGarbage()', function () {
+  describe('measureGarbage()', function () {
     [
       ['<>', 0],
       ['<random characters>', 17],
@@ -30,31 +30,6 @@ describe('day 9', function () {
     ].forEach(([garbage, amount]: [string, number]) => {
       it(`"should return ${amount} for "${garbage}"`, function () {
         expect(measureGarbage(garbage)).toEqual(amount);
-      });
-    });
-  });
-
-  describe('countGroups()', function () {
-    [
-      ['<>', 0],
-      ['{}', 1],
-      ['{{{}}}', 3],
-      ['{{},{}}', 3],
-      ['{{{},{},{{}}}}', 6],
-    ].forEach(([input, groups]: [string, number]) => {
-      it(`"should find ${groups} for "${input}"`, function () {
-        expect(countChar(input)).toEqual(groups);
-      });
-    });
-
-    [
-      ['{<{},{},{{}}>}', 1],
-      ['{<a>,<a>,<a>,<a>}', 1],
-      ['{{<a>},{<a>},{<a>},{<a>}}', 5],
-      ['{{<!>},{<!>},{<!>},{<a>}}', 2],
-    ].forEach(([input, groups]: [string, number]) => {
-      it(`"should find ${groups} using removeGarbage for "${input}"`, function () {
-        expect(countChar(removeGarbage(input))).toEqual(groups);
       });
     });
   });
