@@ -17,15 +17,23 @@ export const mergeReverse = <T>(list: ReadonlyArray<T>, pos: number, picked: Rea
   });
 };
 
-export type KnotHash = {
-  pos: number;
+export type KnotHashIter = Readonly<{
   data: ReadonlyArray<number>;
-}
+  pos: number;
+  skipSize: number;
+}>;
 
-export const step = ({pos, data}: KnotHash, length: number, skipSize: number): KnotHash => {
+export const INITIAL: KnotHashIter = {
+  data: range(0, 256),
+  pos: 0,
+  skipSize: 0
+};
+
+export const step = ({data, pos, skipSize}: KnotHashIter, length: number): KnotHashIter => {
   return {
+    data: mergeReverse(data, pos, pick(data, pos, length)),
     pos: (pos + length + skipSize) % data.length,
-    data: mergeReverse(data, pos, pick(data, pos, length))
+    skipSize: skipSize + 1
   };
 };
 
@@ -35,10 +43,9 @@ export const asciiLength = (input: string) => {
 };
 
 export const main = (input: string) => {
-  const data = range(0, 256);
   const line = splitLines(input)[0];
   const {data: [first, second]} = lineToNumbers(line, ',')
-    .reduce(step, {pos: 0, data});
+    .reduce(step, INITIAL);
   return [first * second];
 };
 
