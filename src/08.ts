@@ -14,6 +14,7 @@ export function instruction(
 
 export const condition = (data: Data, expr: string): boolean => {
   const [reg] = expr.split(/\s+/);
+  // noinspection JSUnusedLocalSymbols
   const input = {[reg]: 0, ...data};
   return eval(`input.${expr}`);
 };
