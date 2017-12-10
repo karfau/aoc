@@ -1,4 +1,5 @@
 import {range} from 'lodash';
+import {toASCII} from 'punycode';
 import {lineToNumbers, runWithStdIn, splitLines} from './tools';
 
 export const pick = <T>(list: ReadonlyArray<T>, pos: number, length: number): ReadonlyArray<T> => {
@@ -28,11 +29,17 @@ export const step = ({pos, data}: KnotHash, length: number, skipSize: number): K
   };
 };
 
+export const LENGTH_SUFFIX: ReadonlyArray<number> = [17, 31, 73, 47, 23];
+export const asciiLength = (input: string) => {
+  return [...input.split('').map(c => c.charCodeAt(0)), ...LENGTH_SUFFIX];
+};
+
 export const main = (input: string) => {
   const data = range(0, 256);
-  const {data: [first, second]} = lineToNumbers(splitLines(input)[0], ',')
+  const line = splitLines(input)[0];
+  const {data: [first, second]} = lineToNumbers(line, ',')
     .reduce(step, {pos: 0, data});
-  return first * second;
+  return [first * second];
 };
 
 if (require.main === module) runWithStdIn(main);

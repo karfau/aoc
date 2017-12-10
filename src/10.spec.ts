@@ -1,4 +1,4 @@
-import {mergeReverse, pick, step} from './10';
+import {asciiLength, LENGTH_SUFFIX, mergeReverse, pick, step} from './10';
 
 describe('day 10', function () {
   describe('pick()', function () {
@@ -24,10 +24,22 @@ describe('day 10', function () {
       });
     });
   });
+
   describe('step()', function () {
     it(`"should work for example`, function () {
       const actual = [3, 4, 1, 5].reduce(step, {pos: 0, data: [0, 1, 2, 3, 4]});
       expect(actual).toEqual({pos: 4, data: [3, 4, 2, 1, 0]});
     });
   });
+
+  describe('asciiLength()', function () {
+    [
+      ['1,2,3', [49, 44, 50, 44, 51, ...LENGTH_SUFFIX]],
+    ].forEach(([input, result]: [string, number[]]) => {
+      it(`"should emit [${result.join()}] from "${input}"`, function () {
+        expect(asciiLength(input)).toEqual(result);
+      });
+    });
+  });
+
 });
