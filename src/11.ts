@@ -23,9 +23,15 @@ export const INITIAL: Readonly<Directions> = {
 
 const clearOpposites = (
   dir: Directions, a: keyof Directions, b: keyof Directions
-): Partial<Directions> => dir[a] === 0 || dir[b] === 0 ? {[a]: dir[a], [b]: dir[b]} : {
-  [a]: dir[a] > dir[b] ? dir[a] - dir[b] : 0,
-  [b]: dir[b] > dir[a] ? dir[b] - dir[a] : 0
+): Partial<Directions> => {
+  if (dir[a] === 0 || dir[b] === 0) {
+    return {};
+  }
+  return {
+    [a]: dir[a] > dir[b] ? dir[a] - dir[b] : 0,
+    [b]: dir[b] > dir[a] ? dir[b] - dir[a] : 0
+  };
+
 };
 
 const walkCorner = (
@@ -44,6 +50,7 @@ const walkCorner = (
 
 export const reduceSteps = (dir: Directions): Directions => {
   let result: Directions = {
+    ...dir,
     ...clearOpposites(dir, 'n', 's'),
     ...clearOpposites(dir, 'nw', 'se'),
     ...clearOpposites(dir, 'ne', 'sw')
