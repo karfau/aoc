@@ -1,4 +1,4 @@
-import {collect} from './12';
+import {countGroups, getGroup, pipes} from './12';
 
 const TEST_INPUT = `
 0 <-> 2
@@ -13,7 +13,12 @@ const TEST_INPUT = `
 describe('day 12', function () {
   describe('collect()', function () {
     it(`"should work for TEST_INPUT`, function () {
-      expect(collect(TEST_INPUT).size).toEqual(6);
+      expect(getGroup(pipes(TEST_INPUT), [0]).size).toEqual(6);
+    });
+  });
+  describe('countGroups()', function () {
+    it(`"should work for TEST_INPUT`, function () {
+      expect(countGroups(pipes(TEST_INPUT))).toEqual(2);
     });
   });
 });
