@@ -1,23 +1,29 @@
 import {lineToNumbers, runWithStdIn, splitLines} from './tools';
+import {isNumber} from 'lodash';
+
+export type Pipes = {readonly [key: number]: ReadonlyArray<number>};
+
+const getGroup = (
+  pipes: Pipes, [current, ...queue]: ReadonlyArray<number>, known: ReadonlySet<number> = new Set()
+): ReadonlySet<number> => {
+
+  if (isNumber(current) && current in pipes) {
+    const nextQueue: ReadonlyArray<number> = [...queue, ...pipes[current]].filter(it => !known.has(it));
+    const newKnown = new Set(known);
+    newKnown.add(current);
+    return getGroup(pipes, nextQueue, newKnown)
+  }
+  return known;
+};
 
 export function collect(input: string): ReadonlySet<number> {
   const pipes = splitLines(input)
     .map(line => lineToNumbers(line, /\D+/))
     .reduce((pipes, [it, ...others]) => ({
       ...pipes, [it]: others
-    }), {} as {[key: number]: ReadonlyArray<number>});
+    }), {} as Pipes);
 
-  const result = new Set<number>();
-  const queue: number[] = [...pipes[0]];
-  while (queue.length > 0) {
-    const current = queue.shift() as number;
-    if (result.has(current)) {
-      continue;
-    }
-    queue.push(...pipes[current]);
-    result.add(current);
-  }
-  return result;
+  return getGroup(pipes, [0]);
 }
 
 export const main = (input: string) => {
