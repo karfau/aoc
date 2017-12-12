@@ -27,7 +27,7 @@ export function collect(input: string): ReadonlySet<number> {
 }
 
 export const main = (input: string) => {
-  return collect(input);
+  return collect(input).size;
 };
 
 if (require.main === module) runWithStdIn(main);
