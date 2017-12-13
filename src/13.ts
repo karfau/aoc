@@ -13,7 +13,16 @@ export const severity = (scanners: Scanners, time: number) => {
 };
 
 export const main = (input: string) => {
-  return;
+  const scanners: Scanners = splitLines(input)
+    .reduce<Scanners>((prev, line) => {
+      const [level, depth] = lineToNumbers(line, /\D+/);
+      return {
+        ...prev,
+        [level]: depth
+      }
+    }, {});
+
+  return severity(scanners, 0);
 };
 
 if (require.main === module) runWithStdIn(main);
