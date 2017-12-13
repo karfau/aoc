@@ -12,12 +12,12 @@ export const catchingScanners = (scanners: Scanners, time: number): ReadonlyArra
 export const severity = (scanners: Scanners, time: number): number =>
   catchingScanners(scanners, time).reduce((sum, level) => sum + level * scanners[level], 0);
 
-export const findPassDelay = (scanners: Scanners, start = 0, iterate = 10): number => {
-  // we need to iterate here to prevent `Maximum call stack size exceeded`
-  // we increase `iterate` each time we need to go to net stack
-  // if this down't work for you, you can pass a bigger initial value for `iterate`
-  const found = range(start, start + iterate).find(time => catchingScanners(scanners, time).length === 0);
-  return found !== undefined ? found : findPassDelay(scanners, start + iterate, iterate * 10);
+export const findPassDelay = (scanners: Scanners, start = 0): number => {
+  let time = start;
+  while (catchingScanners(scanners, time).length !== 0) {
+    time++;
+  }
+  return time;
 };
 
 export const main = (input: string) => {
