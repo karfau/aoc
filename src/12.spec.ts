@@ -11,7 +11,7 @@ const TEST_INPUT = `
 `;
 
 describe('day 12', function () {
-  describe('collect()', function () {
+  describe('getGroup()', function () {
     it(`"should work for TEST_INPUT`, function () {
       expect(getGroup(pipes(TEST_INPUT), [0]).size).toEqual(6);
     });
