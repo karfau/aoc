@@ -1,6 +1,6 @@
-import {isScanned, severity} from './13';
+import {isScanned, Scanners, severity} from './13';
 
-const TEST_INPUT = {
+const TEST_INPUT: Scanners = {
   0: 3,
   1: 2,
   4: 4,
