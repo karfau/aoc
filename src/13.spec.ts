@@ -1,4 +1,4 @@
-import {isScanned, Scanners, severity} from './13';
+import {findPassDelay, isScanned, Scanners, severity} from './13';
 
 const TEST_INPUT: Scanners = {
   0: 3,
@@ -40,6 +40,12 @@ describe('day 13', function () {
   describe('severity()', () => {
     it('should gather 24 severity for the TEST_INPUT', () => {
       expect(severity(TEST_INPUT, 0)).toBe(24);
+    });
+  });
+
+  describe('findPassDelay()', () => {
+    it('should find first pass at 10 for the TEST_INPUT', () => {
+      expect(findPassDelay(TEST_INPUT)).toBe(10);
     });
   });
 });
