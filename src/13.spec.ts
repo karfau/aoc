@@ -1,11 +1,11 @@
-import {isScanned} from './13';
+import {isScanned, severity} from './13';
 
-const TEST_INPUT = `
-0: 3
-1: 2
-4: 4
-6: 4
-`;
+const TEST_INPUT = {
+  0: 3,
+  1: 2,
+  4: 4,
+  6: 4
+};
 
 describe('day 13', function () {
   describe('isScanned()', function () {
@@ -34,6 +34,12 @@ describe('day 13', function () {
       it(`should ${result ? '' : 'not '} be scanned with depth ${depth} at time ${time}`, function () {
         expect(isScanned(depth, time)).toEqual(result);
       });
+    });
+  });
+
+  describe('severity()', () => {
+    it('should gather 24 severity for the TEST_INPUT', () => {
+      expect(severity(TEST_INPUT, 0)).toBe(24);
     });
   });
 });
