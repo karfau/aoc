@@ -33,9 +33,9 @@ export const countGroups = (
   const group = getGroup(pipes, [startWith]);
   const nextKnown = [...known, group];
   //find the key that is not in any known group:
-  const next = Object.keys(pipes).find(it => nextKnown.find(ks => ks.has(parseInt(it, 10))) === undefined);
+  const next = Object.keys(pipes).map(skey => parseInt(skey, 10)).find(it => nextKnown.find(ks => ks.has(it)) === undefined);
 
-  return next === undefined ? nextKnown.length : countGroups(pipes, parseInt(next, 10), nextKnown)
+  return next === undefined ? nextKnown.length : countGroups(pipes, next, nextKnown)
 };
 
 export const main = (input: string) => {
