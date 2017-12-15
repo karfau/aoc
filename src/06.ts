@@ -1,5 +1,5 @@
 import {lineToNumbers, runWithStdIn, splitLines} from './tools';
-import {uniq} from 'lodash'
+import {uniq} from 'lodash';
 
 export function distribute(input: ReadonlyArray<number>): ReadonlyArray<number> {
   let index = input.indexOf(Math.max(...input));
