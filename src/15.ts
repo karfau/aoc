@@ -9,13 +9,9 @@ export const CHECK_4: Check = n => n % 4 === 0;
 export const CHECK_8: Check = n => n % 8 === 0;
 
 export const generate = (start: number, factor: number, check?: Check): number => {
-  let next = start;
-  do {
-    next = (next * factor) % DIVIDER;
-  } while (check && !check(next));
-  return next;
+  let next = (start * factor) % DIVIDER;
+  return check === undefined || check(next) ? next : generate(next, factor, check);
 };
-
 
 export const toBinary = (num: number, length: number): string => padStart(num.toString(2), length, '0');
 const MATCH_LENGTH = 16;
