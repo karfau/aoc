@@ -54,7 +54,12 @@ describe('day 16', () => {
       ['abcde', ['s1','x3/4','pe/b'], 3, 'ecbda'],
       ['abcde', ['s1','x3/4','pe/b'], 4, 'abcde'], // reached initial state
       ['abcde', ['s1','x3/4','pe/b'], 5, 'baedc'],
-      ['abcde', ['s1','x3/4','pe/b'], 1000000000, 'abcde'], // only doing iterations until repetition found
+      // only doing iterations until repetition found, otherwise tests would run for over an hour
+      ['abcde', ['s1','x3/4','pe/b'], 1000000000, 'abcde'],
+      ['abcde',
+        ['s1','x3/4', 's2','x2/4','pa/b', 's3','x2/4','pe/c', 's2','x3/1','pa/c', 's3','x2/4','pc/d'],
+        100000000, 'abcde'
+      ],
     ].forEach(([input, steps, rounds, result]: [string, string[], number, string]) => {
       it(`should dance from ${input} to ${result} using [${steps.join(',')}] ${rounds} times`, () => {
         expect(doDance(input, steps, rounds)).toBe(result);

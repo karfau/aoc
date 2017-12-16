@@ -29,16 +29,34 @@ export const dance = (input: string, step: string): string => {
       return input;
   }
 };
+const NS_PER_SEC = 1e9; // from https://nodejs.org/api/process.html#process_process_hrtime_time
 
 export const doDance = (input: string, steps: string[], rounds: number): string => {
   const results = [input];
   let current = input;
+  const start = process.hrtime();
   for (let i = 0; i < rounds; i++) {
     current = steps.reduce(dance, current);
     if (i > 0 && current === input) {
       break;
     }
     results.push(current);
+  }
+  if (rounds > results.length) {
+    const [sec, nano] = process.hrtime(start);
+    const duration = (sec * NS_PER_SEC + nano) / 1000000;
+    const perIter = duration / results.length;
+    const ms = rounds * perIter;
+    console.log(`doDance("${input}", ${steps.length} steps, ${rounds} times)
+collected ${results.length} different results in ${duration} ms,
+finding the result using just iteration would have taken around
+  ${ms} ms or
+  ${Math.round(ms / 1000)} seconds or
+  ${Math.round(ms / (1000 * 60))} minutes or
+  ${Math.round(ms / (1000 * 60 * 60))} hours or
+  ${Math.round(ms / (1000 * 60 * 60 * 24))} days or
+  ${Math.round(ms / (1000 * 60 * 60 * 24 * 7))} weeks.`
+    )
   }
   return results[rounds % results.length];
 };
