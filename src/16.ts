@@ -1,4 +1,5 @@
 import {runWithStdIn, splitLines} from './tools';
+import * as prettyMS from 'pretty-ms';
 
 export const spin = (input: string, amount: number): string =>
   input.substr(-amount) + input.substr(0, input.length - amount);
@@ -14,21 +15,24 @@ export const swap = (input: string, a: string, b: string): string => {
 };
 
 export const dance = (input: string, step: string): string => {
-
   switch (step[0]) {
     case 's':
       const amount = step.match(/s(\d+)/);
-      return amount == null ? input : spin(input, parseInt(amount[1], 10));
+      if (amount) return spin(input, parseInt(amount[1], 10));
+      break;
     case 'x':
       const matchx = step.match(/x(\d+)\/(\d+)/);
-      return matchx == null ? input : exchange(input, parseInt(matchx[1], 10), parseInt(matchx[2], 10));
+      if (matchx) return exchange(input, parseInt(matchx[1], 10), parseInt(matchx[2], 10));
+      break;
     case 'p':
       const matchp = step.match(/p(\w+)\/(\w+)/);
-      return matchp == null ? input : swap(input, matchp[1], matchp[2]);
+      if (matchp) return swap(input, matchp[1], matchp[2]);
+      break;
     default:
-      return input;
   }
+  return input;
 };
+
 const NS_PER_SEC = 1e9; // from https://nodejs.org/api/process.html#process_process_hrtime_time
 
 export const doDance = (input: string, steps: string[], rounds: number): string => {
@@ -49,14 +53,8 @@ export const doDance = (input: string, steps: string[], rounds: number): string 
     const ms = rounds * perIter;
     console.log(`doDance("${input}", ${steps.length} steps, ${rounds} times)
 collected ${results.length} different results in ${duration} ms,
-finding the result using just iteration would have taken around
-  ${ms} ms or
-  ${Math.round(ms / 1000)} seconds or
-  ${Math.round(ms / (1000 * 60))} minutes or
-  ${Math.round(ms / (1000 * 60 * 60))} hours or
-  ${Math.round(ms / (1000 * 60 * 60 * 24))} days or
-  ${Math.round(ms / (1000 * 60 * 60 * 24 * 7))} weeks.`
-    )
+finding the result using just iteration would have taken around ${prettyMS(ms)}.`
+    );
   }
   return results[rounds % results.length];
 };
