@@ -1,4 +1,4 @@
-import {dance, exchange, spin, swap} from './16';
+import {dance, doDance, exchange, spin, swap} from './16';
 
 describe('day 16', () => {
   describe('spin()', () => {
@@ -42,6 +42,22 @@ describe('day 16', () => {
     ].forEach(([input, step, result]: [string, string, string]) => {
       it(`should dance from ${input} to ${result} using ${step}`, () => {
         expect(dance(input, step)).toBe(result);
+      });
+    });
+  });
+
+  describe('doDance()', () => {
+    [
+      ['abcde', [], 0, 'abcde'],
+      ['abcde', ['s1','x3/4','pe/b'], 1, 'baedc'],
+      ['abcde', ['s1','x3/4','pe/b'], 2, 'ceadb'],
+      ['abcde', ['s1','x3/4','pe/b'], 3, 'ecbda'],
+      ['abcde', ['s1','x3/4','pe/b'], 4, 'abcde'], // reached initial state
+      ['abcde', ['s1','x3/4','pe/b'], 5, 'baedc'],
+      ['abcde', ['s1','x3/4','pe/b'], 1000000000, 'abcde'], // only doing iterations until repetition found
+    ].forEach(([input, steps, rounds, result]: [string, string[], number, string]) => {
+      it(`should dance from ${input} to ${result} using [${steps.join(',')}] ${rounds} times`, () => {
+        expect(doDance(input, steps, rounds)).toBe(result);
       });
     });
   });

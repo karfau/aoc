@@ -30,11 +30,27 @@ export const dance = (input: string, step: string): string => {
   }
 };
 
+export const doDance = (input: string, steps: string[], rounds: number): string => {
+  const results = [input];
+  let current = input;
+  for (let i = 0; i < rounds; i++) {
+    current = steps.reduce(dance, current);
+    if (i > 0 && current === input) {
+      break;
+    }
+    results.push(current);
+  }
+  return results[rounds % results.length];
+};
+
 export const main = (input: string) => {
   const start = 'abcdefghijklmnop';
   const steps = splitLines(input)[0].split(',');
 
-  return steps.reduce(dance, start);
+  return [
+    steps.reduce(dance, start),
+    doDance(start, steps, 1000000000)
+  ];
 };
 
 if (require.main === module) runWithStdIn(main);
