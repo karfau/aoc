@@ -1,24 +1,50 @@
 import {runWithStdIn} from './tools';
-import {range} from 'lodash';
 
-export function spin(input: ReadonlyArray<number>, steps: number): ReadonlyArray<number> {
-  const last = Math.max(...input);
-  let index = input.indexOf(last);
-  let nextPos = ((index + steps) % input.length) + 1;
-  return [
-    ...input.slice(0,nextPos),
-    last + 1,
-    ...(nextPos === input.length ? [] : input.slice(nextPos))
-  ];
+export type Spin = {
+  list: ReadonlyArray<number>;
+  needle?: number;
+  last?: number;
+  lastPos?: number;
 }
 
-export const digitAfter = (steps: number) : number => {
-  const complete = range(0,2017).reduce(last => spin(last, steps), [0]);
-  return complete[complete.indexOf(2017) + 1];
+export function spin(
+  {list, needle = NaN, last = Math.max(...list), lastPos = list.indexOf(last)}: Spin, steps: number
+): Spin {
+
+  const next = last + 1; // next is also the virtual length of the list
+  const nextPos = ((lastPos + steps) % (next)) + 1;
+  const result = nextPos > list.length ? list : [
+    ...list.slice(0,nextPos),
+    next,
+    ...(nextPos === list.length ? [] : list.slice(nextPos))
+  ];
+  const needlePos = result.indexOf(needle);
+
+  return needlePos === -1 ? {
+    list: result,
+    needle
+  } : {
+    list: result.slice(0, needlePos + 2),
+    needle,
+    last: next,
+    lastPos: nextPos
+  }
+}
+
+export const digitAfter = (rounds: number, steps: number, needle: number) : number => {
+  let result: Spin = {list: [0], needle}, i = 0;
+  while (i++ < rounds) {
+    result = spin(result, steps);
+  }
+  return result.list[result.list.indexOf(needle) + 1];
 };
 
 export const main = () => {
-  return digitAfter(345);
+  const puzzle_input = 345;
+  return [
+    digitAfter(2017, puzzle_input, 2017),
+    digitAfter(50000000, puzzle_input, 0)
+  ];
 };
 
 if (require.main === module) runWithStdIn(main);
