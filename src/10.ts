@@ -1,19 +1,21 @@
 import {padStart, range} from 'lodash';
 import {lineToNumbers, runWithStdIn, splitLines} from './tools';
 
-export const pick = <T>(list: ReadonlyArray<T>, pos: number, length: number): ReadonlyArray<T> => {
+export const pick = (list: ReadonlyArray<number>, pos: number, length: number): ReadonlyArray<number> => {
   const end = pos + length;
   const wrapped = end >= list.length ? list.slice(0, end % list.length) : [];
   return [...list.slice(pos, end), ...wrapped];
 };
 
-export const mergeReverse = <T>(list: ReadonlyArray<T>, pos: number, picked: ReadonlyArray<T>): ReadonlyArray<T> => {
+export const mergeReverse = (
+  list: ReadonlyArray<number>, pos: number, picked: ReadonlyArray<number>
+): ReadonlyArray<number> => {
   const reversed = [...picked].reverse();
-  const mapping = range(pos, pos + picked.length).map(i => i % list.length);
-  return list.map((old, i) => {
-    const ri = mapping.indexOf(i);
-    return ri > -1 ? reversed[ri] : old;
-  });
+  const map = new Map<number, number>();
+  for (let i = pos; i < pos + picked.length; i++) {
+    map.set(i % list.length, reversed[i - pos]);
+  }
+  return list.map((old, i) => map.has(i) ? map.get(i) as number : old);
 };
 
 export type KnotHashIter = Readonly<{
@@ -50,10 +52,13 @@ export const xorConvert = (input: ReadonlyArray<number>, base = 16): string => {
 
 export const knotHash = (input: string, base = 16): string => {
   const length = asciiLength(input);
-  const singleRound = (acc: KnotHashIter) => {
-    return length.reduce(step, acc);
-  };
-  return xorConvert(range(0, 64).reduce(singleRound, INITIAL).data, base);
+  return xorConvert(
+    range(0, 64).reduce(
+      acc => length.reduce(step, acc),
+      INITIAL
+    ).data,
+    base
+  );
 };
 
 export const main = (input: string) => {
