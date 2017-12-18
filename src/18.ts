@@ -16,6 +16,10 @@ export function instruction(state: any, input: string): any {
     case 'snd':
       updated._snd = val(first);
       break;
+    case 'rcv':
+      if (val(first) != 0)
+        updated._rcv = state._snd;
+      break;
     case 'set':
       updated[first] = val(second);
       break;
