@@ -32,6 +32,10 @@ export function instruction(state: any, input: string): any {
     case 'mod':
       updated[first] = val(first) % val(second);
       break;
+    case 'jgz':
+      if (val(first) > 0)
+        updated._move = val(second);
+      break;
   }
 
   return {...state, ...updated};
