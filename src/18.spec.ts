@@ -1,4 +1,4 @@
-import {firstRecover, instruction} from './18';
+import {duet, firstRecover, instruction} from './18';
 
 const INITIAL = (init?: any): any => ({
   z: 0, // zero
@@ -51,9 +51,27 @@ describe('day 6', () => {
       [{}, 'jgz x 5', {_move: 1}],
       [{}, 'jgz x -5', {_move: 1}],
 
-    ].forEach(([initial, input, result]: [any, string, any]) => {
-      it(`"${input}" should result in ${JSON.stringify(result)}`, () => {
-        expect(instruction(INITIAL(initial), input)).toEqual(INITIAL(result));
+    ].forEach(([initial, cmd, result]: [any, string, any]) => {
+      const start: any = INITIAL(initial), out: any = INITIAL(result);
+      it(`for star 1 ${JSON.stringify(start)} with instruction "${cmd}" should result in ${JSON.stringify(out)}`, () => {
+        expect(instruction(start, cmd)).toEqual(out);
+      });
+    });
+
+    [
+      [{_send: []}, 'snd 5', {_send: [5], _move: 1}],
+      [{_send: [7]}, 'snd z', {_send: [7, 0], _move: 1}],
+      [{_send: []}, 'snd x', {_send: [0], _move: 1}],
+
+      [{_get: []}, 'rcv a', {_get: [], _move: 0}],
+      [{_get: [7], _rcv: 0}, 'rcv b', {_get: [7], _rcv: 1, b: 7, _move: 1}],
+      [{_get: [0, 1, 2, 3], _rcv: 2}, 'rcv c', {_get: [0, 1, 2, 3], _rcv: 3, c: 2, _move: 1}],
+      [{_get: [0, 1, 2], _rcv: 2}, 'rcv x', {_get: [0, 1, 2], _rcv: 3, x: 2, _move: 1}],
+      [{_get: [0, 1, 2], _rcv: 3}, 'rcv y', {_get: [0, 1, 2], _rcv: 3, _move: 0}],
+    ].forEach(([initial, cmd, result]: [any, string, any]) => {
+      const start: any = INITIAL(initial), out: any = INITIAL(result);
+      it(`for star 2 ${JSON.stringify(start)} with instruction "${cmd}" should result in ${JSON.stringify(out)}`, () => {
+        expect(instruction(start, cmd)).toEqual(out);
       });
     });
   });
@@ -61,17 +79,31 @@ describe('day 6', () => {
   describe('firstRecover()', () => {
     it('should work for test case', () => {
       expect(firstRecover([
-        'set a 1',
-        'add a 2',
-        'mul a a',
-        'mod a 5',
-        'snd a',
-        'set a 0',
-        'rcv a',
-        'jgz a -1',
-        'set a 1',
-        'jgz a -2'
-      ])).toBe(4)
+                            'set a 1',
+                            'add a 2',
+                            'mul a a',
+                            'mod a 5',
+                            'snd a',
+                            'set a 0',
+                            'rcv a',
+                            'jgz a -1',
+                            'set a 1',
+                            'jgz a -2'
+                          ])).toBe(4);
+    });
+  });
+
+  describe('duet()', () => {
+    it('should work for test case', () => {
+      expect(duet([
+                    'snd 1',
+                    'snd 2',
+                    'snd p',
+                    'rcv a',
+                    'rcv b',
+                    'rcv c',
+                    'rcv d'
+                  ])).toBe(3);
     });
   });
 });
