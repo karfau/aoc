@@ -25,6 +25,9 @@ export function instruction(state: any, input: string): any {
     case 'mul':
       updated[first] = val(first) * val(second);
       break;
+    case 'mod':
+      updated[first] = val(first) % val(second);
+      break;
   }
 
   return {...state, ...updated};
