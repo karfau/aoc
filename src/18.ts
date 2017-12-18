@@ -41,9 +41,18 @@ export function instruction(state: any, input: string): any {
   return {...state, ...updated};
 }
 
+export const firstRecover = (input: string[]): number => {
+  let registers: any = {}, pos = 0;
+  while (!('_rcv' in registers) && pos < input.length) {
+    registers = instruction(registers, input[pos]);
+    pos += registers._move;
+  }
+  return registers._rcv;
+};
+
 export const main = (input: string) => {
   const lines = splitLines(input);
-  return;
+  return firstRecover(lines);
 };
 
 if (require.main === module) runWithStdIn(main);
