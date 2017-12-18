@@ -1,8 +1,12 @@
 import {lineToNumbers, runWithStdIn, splitLines} from './tools';
 import {curry} from 'lodash';
 
-export const valueFor = (state: any, keyOrValue: string): number =>
-  keyOrValue in state ? state[keyOrValue] : parseInt(keyOrValue, 10);
+export const valueFor = (state: any, keyOrValue: string): number => {
+  if (/\d+/.test(keyOrValue)) {
+    return parseInt(keyOrValue, 10);
+  }
+  return keyOrValue in state ? state[keyOrValue] : 0;
+};
 
 export function instruction(state: any, input: string): any {
   const val = (kv: string) => valueFor(state, kv);
@@ -14,6 +18,9 @@ export function instruction(state: any, input: string): any {
       break;
     case 'set':
       updated[first] = val(second);
+      break;
+    case 'add':
+      updated[first] = val(first) + val(second);
       break;
   }
 
