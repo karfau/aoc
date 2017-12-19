@@ -2,7 +2,7 @@ import {Pair, splitLines} from './tools';
 import {Direction, main, turn, walkToNextCorner} from './19';
 
 const EXAMPLE: ReadonlyArray<string> = splitLines(`
------+          
+     |          
      |  +--+    
      A  |  C    
  F---|----E|--+ 
@@ -14,11 +14,10 @@ const EXAMPLE: ReadonlyArray<string> = splitLines(`
 describe('day 19', () => {
   describe('walkToNextCorner()', () => {
     [
-      [[0, 0], Direction.right, [0, 5], []],
-      [[1, 5], Direction.down, [5, 5], ['A']],
-      [[5, 6], Direction.right, [5, 8], ['B']],
-      [[4, 8], Direction.up, [1, 8], []],
-      [[3, 13], Direction.left, [3, 0], ['E','F']],
+      [[0, 5], Direction.down, [5, 5], ['A']],
+      [[5, 5], Direction.right, [5, 8], ['B']],
+      [[5, 8], Direction.up, [1, 8], []],
+      [[3, 14], Direction.left, [3, 0], ['E','F']],
     ].forEach(([start, dir, corner, expectedLetters]: [Pair<number>, Direction, Pair<number>, string[]]) => {
       it(`should walkToNextCorner [${start.join()}] to [${corner.join()}] and collect "${expectedLetters.join('')}"`, () => {
         const letters = [];
@@ -45,7 +44,7 @@ describe('day 19', () => {
   });
   describe('main()', () => {
     it('should work for example', () => {
-      expect(main(EXAMPLE.join('\n'))).toBe('ABCDEF')
+      expect(main(EXAMPLE.join('\n'))).toEqual(['ABCDEF', 38])
     });
   });
 });
