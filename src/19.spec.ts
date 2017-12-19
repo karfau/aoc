@@ -14,10 +14,11 @@ const EXAMPLE: ReadonlyArray<string> = splitLines(`
 describe('day 19', () => {
   describe('walkToNextCorner()', () => {
     [
+      [[0, 0], Direction.left, [0, 0], []],
       [[0, 5], Direction.down, [5, 5], ['A']],
       [[5, 5], Direction.right, [5, 8], ['B']],
       [[5, 8], Direction.up, [1, 8], []],
-      [[3, 14], Direction.left, [3, 0], ['E','F']],
+      [[3, 14], Direction.left, [3, 1], ['E','F']],
     ].forEach(([start, dir, corner, expectedLetters]: [Pair<number>, Direction, Pair<number>, string[]]) => {
       it(`should walkToNextCorner [${start.join()}] to [${corner.join()}] and collect "${expectedLetters.join('')}"`, () => {
         const letters = [];
