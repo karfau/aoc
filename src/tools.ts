@@ -1,4 +1,4 @@
-export const splitLines = (s: string) => s.split(/[\n\r]/).map(line => line.trim()).filter(line => line.length > 0);
+export const splitLines = (s: string) => s.split(/[\n\r]/).filter(line => line.trim().length > 0);
 
 export const lineToNumbers = (s: string, delim: string | RegExp = '') => s.split(delim).map(c => parseInt(c, 10));
 

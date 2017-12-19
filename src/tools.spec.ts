@@ -25,9 +25,9 @@ describe('lines()', () => {
     expect(splitLines(s.join('\r'))).toEqual(['1st line','2nd line', '3rd line']);
   });
 
-  it('should return trim lines', function () {
+  it('should not return trimmed empty lines', function () {
     let s = ['   1st line\t', '   ', '\t2nd line   '];
-    expect(splitLines(s.join('\n'))).toEqual(['1st line','2nd line']);
+    expect(splitLines(s.join('\n'))).toEqual(['   1st line\t', '\t2nd line   ']);
   });
 });
 
