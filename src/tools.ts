@@ -7,3 +7,5 @@ export const runWithStdIn = (fun: (input: string) => any) => {
 };
 
 export type Pair<T> = [T, T]
+export type Numbers = ReadonlyArray<number>;
+
