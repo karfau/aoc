@@ -1,6 +1,6 @@
 import {splitLines, lineToNumbers} from './tools';
 
-describe('lines()', () => {
+describe('splitLines()', () => {
   it('should return empty array for empty string', () => {
     expect(splitLines('')).toEqual([]);
   });
@@ -31,7 +31,7 @@ describe('lines()', () => {
   });
 });
 
-describe('numbers', function () {
+describe('lineToNumbers()', function () {
   it('should return empty array for empty string', function () {
     expect(lineToNumbers('')).toEqual([])
   });
