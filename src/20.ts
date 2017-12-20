@@ -74,7 +74,7 @@ export const findClosest = (particles: ReadonlyArray<Particle>): number => {
     const [minDiff, moved] = min(differences);
     const intersec = intersection(closest, moved).sort((a, b) => a - b);
     const repeated = intersec.length > 1 && intersec.join(',') === lastIntersection.join(',') ? repIntersect + 1 : 0;
-    console.log(t, distances, differences, lastIntersection);
+    // console.log(t, distances, differences, lastIntersection);
     if (repeated >= TESTS){
       console.warn('intersections didn\'t change');
       return -1;
