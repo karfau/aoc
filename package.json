@@ -23,7 +23,9 @@
     "react-dom": "^15.4.2",
     "react-redux": "^5.0.2",
     "redux": "^3.6.0",
-    "ts-node": "^3.3.0"
+    "save-pixels": "^2.3.4",
+    "ts-node": "^3.3.0",
+    "zeros": "^1.0.0"
   },
   "scripts": {
     "start": "react-scripts-ts start",

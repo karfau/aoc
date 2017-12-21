@@ -1,5 +1,8 @@
 import {runWithStdIn, splitLines} from './tools';
 import {range, uniq} from 'lodash';
+const zeros = require('zeros');
+const savePixels = require('save-pixels');
+import {createWriteStream} from 'fs';
 
 export type Rules = {[key: string]: string[]};
 export type Lines = ReadonlyArray<string>;
@@ -79,11 +82,22 @@ export const START: Lines = ['.#.', '..#', '###'];
 
 export const countOn = (drawing: Lines): number => drawing.join('').split('#').length - 1;
 
+export const toPixels = (drawing: Lines): any => {
+  const pixels = zeros([drawing.length, drawing.length]);
+  drawing.forEach((line, lineIndex) => {
+    line.split('').forEach(
+      (c,letterIndex) => pixels.set(lineIndex, letterIndex, c === '#' ? 0 : 255)
+    )
+  });
+  return pixels;
+};
+
 export const main = (input: string) => {
   const lines = splitLines(input);
   const rules = readRules(lines);
-  const enhancer = (prev: Lines) => {
+  const enhancer = (prev: Lines, i: number) => {
     const enhanced = enhance(prev, rules);
+    savePixels(toPixels(enhanced), 'png').pipe(createWriteStream(`${i}.png`, {autoClose: true}));
     // console.log(enhanced.join('\n'), '\n---\n');
     return enhanced;
   };
