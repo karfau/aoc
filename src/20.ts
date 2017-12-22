@@ -1,7 +1,7 @@
 import {lineToNumbers, Numbers, runWithStdIn, splitLines} from './tools';
 import {countBy, intersection} from 'lodash';
 
-export type Vector = Readonly<[number, number, number]>;
+export type Vector = [number, number, number];
 
 export const calc = (t: number, p: number, v: number, a: number) =>
   t === 0 ? p : p + v * t + a * (t * (t + 1)) / 2;
