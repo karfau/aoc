@@ -1,5 +1,5 @@
 import {Pair, splitLines} from './tools';
-import {Direction, main, turn, walkToNextCorner} from './19';
+import {Direction, DirectionKey, main, turn, walkToNextCorner} from './19';
 
 const EXAMPLE: ReadonlyArray<string> = splitLines(`
      |          
@@ -21,7 +21,7 @@ describe('day 19', () => {
       [[3, 14], Direction.left, [3, 1], ['E','F']],
     ].forEach(([start, dir, corner, expectedLetters]: [Pair<number>, Direction, Pair<number>, string[]]) => {
       it(`should walkToNextCorner [${start.join()}] to [${corner.join()}] and collect "${expectedLetters.join('')}"`, () => {
-        const letters = [];
+        const letters: string[] = [];
         expect(walkToNextCorner(EXAMPLE, start, dir, letters)).toEqual(corner);
         expect(letters).toEqual(expectedLetters);
       });
@@ -37,7 +37,7 @@ describe('day 19', () => {
       [[5, 11], 'down', 'right'],
       [[5, 14], 'right', 'up'],
       [[3, 14], 'up', 'left'],
-    ].forEach(([start, from, to]: [Pair<number>, keyof Direction, keyof Direction]) => {
+    ].forEach(([start, from, to]: [Pair<number>, DirectionKey, DirectionKey]) => {
       it(`should turn from ${from} to ${to} at [${start.join()}]`, () => {
         expect(turn(EXAMPLE, start, Direction[from])).toEqual(Direction[to]);
       });

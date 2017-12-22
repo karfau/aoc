@@ -2,6 +2,7 @@ import {lineToNumbers, Pair, runWithStdIn, splitLines} from './tools';
 import {values} from 'lodash';
 
 export enum Direction {up = '-1,0', left = '0,-1', down = '1,0', right = '0,1'}
+export type DirectionKey = keyof typeof Direction;
 export const doStep = (dir: Direction, line: number, col: number): Pair<number> => {
   const [ml, mc] = lineToNumbers(dir, ',');
   return [line + ml, col + mc];
