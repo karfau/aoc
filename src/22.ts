@@ -8,7 +8,9 @@ export const TURN_LEFT: ReadonlyArray<Direction> = [Direction.up, Direction.left
 export const INFECTED = '#';
 export const CLEAN = '';
 export const V1 = [CLEAN, INFECTED];
-export const V2 = [CLEAN, 'weak', INFECTED, 'flagged'];
+export const WEAK = 'weak';
+export const FLAGGED = 'flagged';
+export const V2 = [CLEAN, WEAK, INFECTED, FLAGGED];
 
 export const turn = (from: Direction, mode: string): Direction => {
   const current = TURN_LEFT.indexOf(from);
@@ -17,8 +19,14 @@ export const turn = (from: Direction, mode: string): Direction => {
     case CLEAN:
       next = (current + 1) % TURN_LEFT.length;
       break;
+    case WEAK:
+      next = current;
+      break;
     case INFECTED:
       next = current > 0 ? current - 1 : TURN_LEFT.length - 1;
+      break;
+    case FLAGGED:
+      next = (current + 2) % TURN_LEFT.length;
       break;
   }
   return TURN_LEFT[next];

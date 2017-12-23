@@ -1,7 +1,7 @@
 import { splitLines} from './tools';
 import {
-  burst, CLEAN, countInfectingBursts, Direction, DirectionKey, INFECTED, Infection, parseGrid, turn,
-  V1
+  burst, CLEAN, countInfectingBursts, Direction, DirectionKey, FLAGGED, INFECTED, Infection, parseGrid, turn,
+  V1, WEAK
 } from './22';
 import {range} from 'lodash';
 
@@ -76,13 +76,23 @@ describe('day 22', () => {
       ['right', CLEAN, 'up'],
       ['up', CLEAN, 'left'],
 
+      ['left', WEAK, 'left'],
+      ['down', WEAK, 'down'],
+      ['right', WEAK, 'right'],
+      ['up', WEAK, 'up'],
+
       ['left', INFECTED, 'up'],
       ['up', INFECTED, 'right'],
       ['right', INFECTED, 'down'],
       ['down', INFECTED, 'left'],
-    ].forEach(([dir, left, next]: [DirectionKey, string, DirectionKey]) => {
-      it(`should turn ${left ? 'left': 'right'} from ${dir} to ${next}`, () => {
-        expect(turn(Direction[dir], left)).toEqual(Direction[next]);
+
+      ['left', FLAGGED, 'right'],
+      ['down', FLAGGED, 'up'],
+      ['right', FLAGGED, 'left'],
+      ['up', FLAGGED, 'down'],
+    ].forEach(([dir, mode, next]: [DirectionKey, string, DirectionKey]) => {
+      it(`should turn from ${dir} to ${next} for mode "${mode}"`, () => {
+        expect(turn(Direction[dir], mode)).toEqual(Direction[next]);
       });
     });
   });
