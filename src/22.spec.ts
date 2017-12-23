@@ -1,7 +1,7 @@
 import { splitLines} from './tools';
 import {
   burst, CLEAN, countInfectingBursts, Direction, DirectionKey, FLAGGED, INFECTED, Infection, parseGrid, turn,
-  V1, WEAK
+  V1, V2, WEAK
 } from './22';
 import {range} from 'lodash';
 
@@ -9,6 +9,12 @@ import {range} from 'lodash';
 const EXAMPLE: ReadonlyArray<string> = splitLines(`
 ..#
 #..
+...
+`);
+
+const EXAMPLE_WEAK: ReadonlyArray<string> = splitLines(`
+..W
+W..
 ...
 `);
 
@@ -68,6 +74,18 @@ const SEVEN: ReadonlyArray<string> = splitLines(`
 .........
 `);
 
+const SEVEN_V2: ReadonlyArray<string> = splitLines(`
+.........
+.........
+.........
+..WW.#...
+..#=W....
+.........
+.........
+.........
+.........
+`);
+
 describe('day 22', () => {
   describe('turn()', () => {
     [
@@ -99,44 +117,71 @@ describe('day 22', () => {
 
   describe('parseGrid()', () => {
     it('should work for example', () => {
-      expect(parseGrid(EXAMPLE, V1)).toEqual({'-1,0': INFECTED,'1,-1': INFECTED})
+      expect(parseGrid(EXAMPLE)).toEqual({'-1,0': INFECTED,'1,-1': INFECTED})
     });
     it('should work for example 2', () => {
-      expect(parseGrid(EXAMPLE_2, V1)).toEqual({'-2,-2': INFECTED,'2,-2': INFECTED,'2,2': INFECTED,'-2,2': INFECTED})
+      expect(parseGrid(EXAMPLE_2)).toEqual({'-2,-2': INFECTED,'2,-2': INFECTED,'2,2': INFECTED,'-2,2': INFECTED})
     });
-    it('should work for example with false', () => {
-      expect(parseGrid(TWO, V1)).toEqual({'0,0': INFECTED,'1,-1': INFECTED,'-1,0': CLEAN})
+    it('should work for example with CLEAN', () => {
+      expect(parseGrid(TWO)).toEqual({'0,0': INFECTED,'1,-1': INFECTED,'-1,0': CLEAN})
+    });
+    it('should work for example with WEAK', () => {
+      expect(parseGrid(EXAMPLE_WEAK)).toEqual({'-1,0': WEAK,'1,-1': WEAK})
     });
     it('should work for small and big example', () => {
-      expect(parseGrid(EXAMPLE, V1)).toEqual(parseGrid(EXAMPLE_BIG, V1))
+      expect(parseGrid(EXAMPLE)).toEqual(parseGrid(EXAMPLE_BIG))
     });
   });
 
   describe('burst()', () => {
-    it('should work for example', () => {
-      const initial = parseGrid(EXAMPLE, V1);
+    it('should work for v1', () => {
       const infection: Infection = {
-        grid: initial,
+        grid: parseGrid(EXAMPLE),
         position: [0,0],
         direction: Direction.up
       };
       const steps: Infection[] = [burst(infection, V1)];
       range(1,7).forEach(i => steps.push(burst(steps[i - 1], V1)));
       const [first, second, third, fourth, fifth, sixth, seventh] = steps;
-      expect(first).toEqual({grid: parseGrid(ONE, V1), position: [-1,0], direction: Direction.left});
-      expect(second).toEqual({grid: parseGrid(TWO, V1), position: [-1,-1], direction: Direction.up});
-      expect(seventh.grid).toEqual(parseGrid(SEVEN, V1));
+      expect(first).toEqual({grid: parseGrid(ONE), position: [-1,0], direction: Direction.left});
+      expect(second).toEqual({grid: parseGrid(TWO), position: [-1,-1], direction: Direction.up});
+      expect(seventh.grid).toEqual(parseGrid(SEVEN));
+    });
+
+    it('should work for v2', () => {
+      const initial = parseGrid(EXAMPLE);
+      const infection: Infection = {
+        grid: JSON.parse(JSON.stringify(initial)),
+        position: [0,0],
+        direction: Direction.up
+      };
+      const steps: Infection[] = [burst(infection, V2)];
+      range(1,7).forEach(i => steps.push(burst(steps[i - 1], V2)));
+      const seventh = steps[6];
+      expect(seventh.grid).toEqual(parseGrid(SEVEN_V2));
     });
   });
 
-  describe('countInfectingBursts()', () => {
+  describe('countInfectingBursts() V1', () => {
     [
       [7, 5],
       [70, 41],
       // [10000, 5587],
     ].forEach(([iterations, expected]: [number, number]) => {
       it(`${iterations} iterations should cause ${expected} infections`, () => {
-        expect(countInfectingBursts(parseGrid(EXAMPLE, V1), V1, iterations)).toBe(expected)
+        expect(countInfectingBursts(parseGrid(EXAMPLE), V1, iterations)).toBe(expected)
+      });
+    });
+  });
+
+  describe('countInfectingBursts() V2', () => {
+    [
+      [7, 1],
+      [100, 26],
+      // [10000000, 2511944],
+    ].forEach(([iterations, expected]: [number, number]) => {
+      it(`${iterations} iterations should cause ${expected} infections`, () => {
+        expect(countInfectingBursts(parseGrid(EXAMPLE), V2, iterations)).toBe(expected)
       });
     });
   });
