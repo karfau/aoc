@@ -5,6 +5,7 @@
   "devDependencies": {
     "@types/lodash": "^4.14.86",
     "@types/pretty-ms": "^3.0.0",
+    "hoek": "^4.2.1",
     "react-addons-test-utils": "^15.4.2",
     "react-scripts-ts": "^1.4.0"
   },
