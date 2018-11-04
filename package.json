@@ -3,8 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "devDependencies": {
+    "merge": "^1.2.1",
     "react-addons-test-utils": "^15.4.2",
-    "react-scripts-ts": "^4.0.8"
+    "react-scripts-ts": "^4.0.8",
+    "typescript": "^3.1.6"
   },
   "dependencies": {
     "@types/enzyme": "^2.7.2",
